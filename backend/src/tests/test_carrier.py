@@ -1,8 +1,10 @@
+
 import pytest
-from unittest.mock import MagicMock, patch
-from src.scoring.models import Carrier, ScoreHistory, CCFUpload
-from src.scoring.repositories.carrier import ICarrierRepository, DjangoCarrierRepository
+
+from src.scoring.models import Carrier, CCFUpload, ScoreHistory
+from src.scoring.repositories.carrier import DjangoCarrierRepository, ICarrierRepository
 from src.scoring.services.scoring import ScoreBreakdown
+
 
 def make_breakdown(**overrides) -> ScoreBreakdown:
     """Cria um ScoreBreakdown com valores padrão para testes."""
@@ -105,8 +107,8 @@ class TestGetExistingCarriers:
                 **make_validated(carrier_id=f"MC-Q{i}", dot_number=f"200000{i}"),
                 score=80.0, score_breakdown={}, record_hash=f"{'b' * 63}{i}",
             )
-        from django.test.utils import CaptureQueriesContext
         from django.db import connection
+        from django.test.utils import CaptureQueriesContext
         with CaptureQueriesContext(connection) as ctx:
             self.repo.get_existing_carriers([f"MC-Q{i}" for i in range(5)])
         assert len(ctx.captured_queries) == 1

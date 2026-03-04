@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 class SafetyRating(models.TextChoices):
     SATISFACTORY = "Satisfactory", "Satisfactory"
     CONDITIONAL = "Conditional", "Conditional"

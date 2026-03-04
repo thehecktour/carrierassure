@@ -1,0 +1,10 @@
+line-length = 100
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "W", "I"]   # erros, pyflakes, warnings, isort
+ignore = ["E501"]                # ignora linha muito longa (black já cuida)
+
+[lint.per-file-ignores]
+"*/migrations/*" = ["E501", "F401"]
+"*/tests/*" = ["F811"]

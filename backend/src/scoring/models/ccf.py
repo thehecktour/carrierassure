@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 class CCFUpload(models.Model):
     """
     Audit log of every CCF file upload.

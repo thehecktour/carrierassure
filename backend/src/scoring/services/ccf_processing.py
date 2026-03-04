@@ -20,8 +20,8 @@ import logging
 from typing import Any
 
 from src.scoring.repositories.carrier import DjangoCarrierRepository, ICarrierRepository
-from src.scoring.services.record import RecordProcessor
 from src.scoring.services.processing_result import ProcessingResult
+from src.scoring.services.record import RecordProcessor
 
 logger = logging.getLogger(__name__)
 

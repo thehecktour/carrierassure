@@ -14,10 +14,10 @@ making it fully testable without a running database.
 import logging
 from typing import Literal
 
+from src.scoring.models import Carrier
 from src.scoring.serializers.carrier import CCFCarrierInputSerializer
 from src.scoring.services.scoring import compute_score
 from src.scoring.utils.hashing import compute_record_hash, detect_change
-from src.scoring.models import Carrier
 
 logger = logging.getLogger(__name__)
 

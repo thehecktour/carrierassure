@@ -8,9 +8,8 @@ Follows the Dependency Inversion Principle (DIP):
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional
 
-from src.scoring.models import Carrier, ScoreHistory, CCFUpload
+from src.scoring.models import Carrier, CCFUpload, ScoreHistory
 from src.scoring.services.scoring import ScoreBreakdown
 
 

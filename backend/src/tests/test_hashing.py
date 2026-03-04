@@ -8,7 +8,9 @@ Cobre:
 """
 
 import pytest
-from src.scoring.utils.hashing import compute_record_hash, detect_change, _HASH_FIELDS
+
+from src.scoring.utils.hashing import _HASH_FIELDS, compute_record_hash, detect_change
+
 
 def make_record(**overrides) -> dict:
     base = {

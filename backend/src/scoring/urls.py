@@ -1,6 +1,7 @@
 # src/scoring/urls.py
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+
 from src.scoring.views.ccf_upload_view import CCFUploadViewSet
 from src.scoring.views.scoring_view import CarrierViewSet
 
