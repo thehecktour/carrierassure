@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import globals from "globals";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
@@ -16,15 +17,8 @@ export default [
       ecmaVersion: 2022,
       sourceType: "module",
       globals: {
-        window: "readonly",
-        document: "readonly",
-        console: "readonly",
-        fetch: "readonly",
-        FormData: "readonly",
-        setTimeout: "readonly",
-        Date: "readonly",
-        Math: "readonly",
-        URLSearchParams: "readonly"
+        ...globals.browser,
+        ...globals.node,
       },
       parserOptions: {
         ecmaFeatures: { jsx: true },
@@ -37,7 +31,7 @@ export default [
       ...reactPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",         
+      "react/prop-types": "off",
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "no-console": "off",
     },

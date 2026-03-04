@@ -1,42 +1,36 @@
 # --- AI-ASSISTED ---
-# Tool: ChatGPT GPT-5
-# Prompt: "Create a production-ready multi-stage Dockerfile for a Vite + React
-#          dashboard using import.meta.env.VITE_API_URL, optimized for Docker
-#          Compose integration with a Mongo + backend service architecture."
-# Modifications: Implemented multi-stage build (Node → Nginx), injected VITE_API_URL
-#                as build ARG, optimized layer caching strategy, added SPA-ready
-#                Nginx configuration support, production-optimized alpine images.
+# Tool: Claude Sonnet 4.6
+# Prompt: "Multi-stage Dockerfile for Next.js app with standalone output,
+#          optimized for Docker Compose integration."
+# Modifications: Switched from Vite/Nginx to Next.js standalone output,
+#                replaced VITE_API_URL with NEXT_PUBLIC_API_URL,
+#                removed nginx stage in favor of Next.js built-in server.
 # --- END AI-ASSISTED ---
 
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
-
+COPY package.json package-lock.json* ./
 RUN npm install
 
 COPY . .
 
-ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 RUN npm run build
 
-FROM nginx:1.27-alpine
+FROM node:20-alpine AS runner
 
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-COPY --from=builder /app/dist /usr/share/nginx/html
+ENV NODE_ENV=production
 
-RUN printf 'server { \
-    listen 80; \
-    server_name localhost; \
-    root /usr/share/nginx/html; \
-    index index.html; \
-    location / { try_files $uri $uri/ /index.html; } \
-}' > /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
-EXPOSE 80
+EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]
