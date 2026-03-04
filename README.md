@@ -171,7 +171,7 @@ carrierassure/
 git clone https://github.com/your-org/carrierassure.git
 cd carrierassure
 
-docker compose up --build
+docker-compose up --build
 ```
 
 - Frontend → http://localhost:3000
