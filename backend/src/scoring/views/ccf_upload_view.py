@@ -69,9 +69,7 @@ class CCFUploadViewSet(
         service = CCFProcessingService()
         result = service.process(records)
 
-        http_status = (
-            status.HTTP_207_MULTI_STATUS if result.error_count > 0 else status.HTTP_200_OK
-        )
+        http_status = status.HTTP_207_MULTI_STATUS if result.error_count > 0 else status.HTTP_200_OK
         return Response(result.to_dict(), status=http_status)
 
     def _extract_records(self, request: Request):

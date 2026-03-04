@@ -55,10 +55,7 @@ class DjangoCarrierRepository(ICarrierRepository):
     """
 
     def get_existing_carriers(self, carrier_ids: list[str]) -> dict[str, Carrier]:
-        return {
-            c.carrier_id: c
-            for c in Carrier.objects.filter(carrier_id__in=carrier_ids)
-        }
+        return {c.carrier_id: c for c in Carrier.objects.filter(carrier_id__in=carrier_ids)}
 
     def upsert(self, validated: dict, breakdown: ScoreBreakdown, record_hash: str) -> bool:
         defaults = {

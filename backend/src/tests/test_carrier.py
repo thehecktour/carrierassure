@@ -1,4 +1,3 @@
-
 import pytest
 
 from src.scoring.models import Carrier, CCFUpload, ScoreHistory
@@ -38,6 +37,7 @@ def make_validated(**overrides) -> dict:
     base.update(overrides)
     return base
 
+
 class TestICarrierRepository:
     def test_cannot_instantiate_abstract_class(self):
         """ICarrierRepository não pode ser instanciada diretamente."""
@@ -46,9 +46,11 @@ class TestICarrierRepository:
 
     def test_concrete_class_must_implement_all_methods(self):
         """Classe concreta que não implementa todos os métodos também falha."""
+
         class Incomplete(ICarrierRepository):
             def get_existing_carriers(self, carrier_ids):
                 return {}
+
             # upsert, append_score_history, save_upload_audit não implementados
 
         with pytest.raises(TypeError):
@@ -56,14 +58,23 @@ class TestICarrierRepository:
 
     def test_concrete_class_with_all_methods_instantiates(self):
         """Classe que implementa todos os métodos pode ser instanciada."""
+
         class Complete(ICarrierRepository):
-            def get_existing_carriers(self, carrier_ids): return {}
-            def upsert(self, validated, breakdown, record_hash): return True
-            def append_score_history(self, carrier_id, breakdown): pass
-            def save_upload_audit(self, total, new, updated, unchanged, errors, error_details): pass
+            def get_existing_carriers(self, carrier_ids):
+                return {}
+
+            def upsert(self, validated, breakdown, record_hash):
+                return True
+
+            def append_score_history(self, carrier_id, breakdown):
+                pass
+
+            def save_upload_audit(self, total, new, updated, unchanged, errors, error_details):
+                pass
 
         instance = Complete()
         assert isinstance(instance, ICarrierRepository)
+
 
 @pytest.mark.django_db
 class TestGetExistingCarriers:
@@ -75,14 +86,26 @@ class TestGetExistingCarriers:
         assert result == {}
 
     def test_returns_dict_keyed_by_carrier_id(self):
-        Carrier.objects.create(**make_validated(), score=85.0, score_breakdown={}, record_hash="a" * 64)
+        Carrier.objects.create(
+            **make_validated(), score=85.0, score_breakdown={}, record_hash="a" * 64
+        )
         result = self.repo.get_existing_carriers(["MC-TEST-001"])
         assert "MC-TEST-001" in result
         assert isinstance(result["MC-TEST-001"], Carrier)
 
     def test_returns_only_requested_carriers(self):
-        Carrier.objects.create(**make_validated(carrier_id="MC-A"), score=80.0, score_breakdown={}, record_hash="a" * 64)
-        Carrier.objects.create(**make_validated(carrier_id="MC-B"), score=70.0, score_breakdown={}, record_hash="b" * 64)
+        Carrier.objects.create(
+            **make_validated(carrier_id="MC-A"),
+            score=80.0,
+            score_breakdown={},
+            record_hash="a" * 64,
+        )
+        Carrier.objects.create(
+            **make_validated(carrier_id="MC-B"),
+            score=70.0,
+            score_breakdown={},
+            record_hash="b" * 64,
+        )
         result = self.repo.get_existing_carriers(["MC-A"])
         assert "MC-A" in result
         assert "MC-B" not in result
@@ -91,7 +114,9 @@ class TestGetExistingCarriers:
         for i in range(3):
             Carrier.objects.create(
                 **make_validated(carrier_id=f"MC-{i}", dot_number=f"100000{i}"),
-                score=80.0, score_breakdown={}, record_hash=f"{'a' * 63}{i}",
+                score=80.0,
+                score_breakdown={},
+                record_hash=f"{'a' * 63}{i}",
             )
         result = self.repo.get_existing_carriers(["MC-0", "MC-1", "MC-2"])
         assert len(result) == 3
@@ -105,10 +130,13 @@ class TestGetExistingCarriers:
         for i in range(5):
             Carrier.objects.create(
                 **make_validated(carrier_id=f"MC-Q{i}", dot_number=f"200000{i}"),
-                score=80.0, score_breakdown={}, record_hash=f"{'b' * 63}{i}",
+                score=80.0,
+                score_breakdown={},
+                record_hash=f"{'b' * 63}{i}",
             )
         from django.db import connection
         from django.test.utils import CaptureQueriesContext
+
         with CaptureQueriesContext(connection) as ctx:
             self.repo.get_existing_carriers([f"MC-Q{i}" for i in range(5)])
         assert len(ctx.captured_queries) == 1
@@ -178,6 +206,7 @@ class TestUpsert:
         self.repo.upsert(self.validated, self.breakdown, self.record_hash)
         assert Carrier.objects.filter(carrier_id="MC-TEST-001").count() == 1
 
+
 @pytest.mark.django_db
 class TestAppendScoreHistory:
     def setup_method(self):
@@ -215,7 +244,9 @@ class TestAppendScoreHistory:
     def test_history_is_linked_to_correct_carrier(self):
         other = Carrier.objects.create(
             **make_validated(carrier_id="MC-OTHER", dot_number="9999999"),
-            score=50.0, score_breakdown={}, record_hash="f" * 64,
+            score=50.0,
+            score_breakdown={},
+            record_hash="f" * 64,
         )
         self.repo.append_score_history("MC-TEST-001", self.breakdown)
         assert ScoreHistory.objects.filter(carrier=other).count() == 0
@@ -233,7 +264,11 @@ class TestSaveUploadAudit:
 
     def test_saves_correct_counts(self):
         self.repo.save_upload_audit(
-            total=10, new=4, updated=3, unchanged=2, errors=1,
+            total=10,
+            new=4,
+            updated=3,
+            unchanged=2,
+            errors=1,
             error_details=[{"carrier_id": "MC-BAD", "error": "invalid"}],
         )
         audit = CCFUpload.objects.first()

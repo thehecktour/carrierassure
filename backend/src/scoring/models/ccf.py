@@ -7,6 +7,7 @@ class CCFUpload(models.Model):
     Audit log of every CCF file upload.
     Stores processing summary for debugging and analytics.
     """
+
     uploaded_at = models.DateTimeField(default=timezone.now, db_index=True)
     total_records = models.IntegerField(default=0)
     new_count = models.IntegerField(default=0)

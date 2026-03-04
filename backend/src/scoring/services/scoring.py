@@ -79,6 +79,7 @@ class ScoreBreakdown:
 #                unit testing, added input clamping, added docstrings.
 # --- END AI-ASSISTED ---
 
+
 def score_safety_rating(safety_rating: str) -> float:
     """
     Returns the safety_rating contribution (0–25).

@@ -98,9 +98,7 @@ class CCFProcessingService:
     ) -> None:
         """Delegates single-record processing and updates the result."""
         carrier_id = (
-            raw_record.get("carrier_id", "unknown")
-            if isinstance(raw_record, dict)
-            else "unknown"
+            raw_record.get("carrier_id", "unknown") if isinstance(raw_record, dict) else "unknown"
         )
         try:
             status = self._record_processor.process(raw_record, existing_carriers)

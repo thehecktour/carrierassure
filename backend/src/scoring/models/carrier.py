@@ -69,6 +69,7 @@ class ScoreHistory(models.Model):
     Append-only log of every score computation for a carrier.
     Enables the Advanced Analytics history panel on the frontend.
     """
+
     carrier = models.ForeignKey(
         Carrier,
         on_delete=models.CASCADE,

@@ -29,6 +29,7 @@ def make_record(**overrides) -> dict:
     base.update(overrides)
     return base
 
+
 class TestComputeRecordHashFormat:
     def test_returns_string(self):
         assert isinstance(compute_record_hash(make_record()), str)
@@ -57,10 +58,16 @@ class TestComputeRecordHashDeterminism:
     def test_key_insertion_order_does_not_affect_hash(self):
         """Canonical JSON deve garantir que ordem de inserção não importa."""
         r1 = {
-            "carrier_id": "MC-X", "dot_number": "1234567", "legal_name": "X",
-            "safety_rating": "Satisfactory", "out_of_service_pct": 10.0,
-            "crash_total": 1, "driver_oos_pct": 5.0, "insurance_on_file": True,
-            "authority_status": "Active", "last_inspection_date": "2025-01-01",
+            "carrier_id": "MC-X",
+            "dot_number": "1234567",
+            "legal_name": "X",
+            "safety_rating": "Satisfactory",
+            "out_of_service_pct": 10.0,
+            "crash_total": 1,
+            "driver_oos_pct": 5.0,
+            "insurance_on_file": True,
+            "authority_status": "Active",
+            "last_inspection_date": "2025-01-01",
             "fleet_size": 10,
         }
         r2 = {k: r1[k] for k in reversed(list(r1.keys()))}
@@ -99,16 +106,21 @@ class TestComputeRecordHashFieldWhitelist:
         }
         for field, value in mutations.items():
             modified_hash = compute_record_hash(make_record(**{field: value}))
-            assert modified_hash != base_hash, (
-                f"Hash deveria mudar quando {field}={value!r}"
-            )
+            assert modified_hash != base_hash, f"Hash deveria mudar quando {field}={value!r}"
 
     def test_all_hash_fields_are_present_in_whitelist(self):
         """Garante que nenhum campo CCF foi esquecido da whitelist."""
         expected = {
-            "carrier_id", "dot_number", "legal_name", "safety_rating",
-            "out_of_service_pct", "crash_total", "driver_oos_pct",
-            "insurance_on_file", "authority_status", "last_inspection_date",
+            "carrier_id",
+            "dot_number",
+            "legal_name",
+            "safety_rating",
+            "out_of_service_pct",
+            "crash_total",
+            "driver_oos_pct",
+            "insurance_on_file",
+            "authority_status",
+            "last_inspection_date",
             "fleet_size",
         }
         assert set(_HASH_FIELDS) == expected
@@ -158,6 +170,7 @@ class TestComputeRecordHashInvalidInputs:
         result = compute_record_hash(r)
         assert isinstance(result, str)
         assert len(result) == 64
+
 
 class TestDetectChange:
     def test_none_stored_hash_means_new_record(self):
