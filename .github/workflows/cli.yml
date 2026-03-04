@@ -1,3 +1,11 @@
+# --- AI-ASSISTED ---
+# Tool: Claude Sonnet 4.6
+# Prompt: "Fix CI pipeline: upgrade Python 3.11 to 3.12 and replace
+#          manage.py test with pytest for Django test runner."
+# Modifications: Changed python-version to 3.12, replaced
+#                'manage.py test' with 'pytest --tb=short -q'.
+# --- END AI-ASSISTED ---
+
 name: Carrier Assure CI
 
 on:
@@ -22,7 +30,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install Poetry
         run: |
@@ -41,7 +49,7 @@ jobs:
         run: poetry run python manage.py makemigrations --check --dry-run
 
       - name: Run Tests
-        run: poetry run python manage.py test
+        run: poetry run pytest --tb=short -q
 
   frontend:
     name: Frontend CI (React)
