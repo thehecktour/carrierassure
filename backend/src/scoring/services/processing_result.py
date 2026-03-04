@@ -1,3 +1,12 @@
+# --- AI-ASSISTED ---
+# Tool: Claude Sonnet 4.6
+# Prompt: "Extract the ProcessingResult dataclass from a monolithic service
+#          into its own module following Single Responsibility Principle."
+# Modifications: Added register_new, register_updated, register_unchanged,
+#                and register_error methods to encapsulate counter mutation
+#                logic, avoiding raw increments scattered across the service.
+# --- END AI-ASSISTED ---
+
 """
 ProcessingResult Value Object
 ==============================

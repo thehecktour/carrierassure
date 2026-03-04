@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-
 class SafetyRating(models.TextChoices):
     SATISFACTORY = "Satisfactory", "Satisfactory"
     CONDITIONAL = "Conditional", "Conditional"
@@ -69,7 +68,6 @@ class ScoreHistory(models.Model):
     Append-only log of every score computation for a carrier.
     Enables the Advanced Analytics history panel on the frontend.
     """
-
     carrier = models.ForeignKey(
         Carrier,
         on_delete=models.CASCADE,
