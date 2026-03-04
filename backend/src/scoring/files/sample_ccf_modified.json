@@ -1,0 +1,67 @@
+[
+  {
+    "carrier_id": "MC-123456",
+    "dot_number": "1234567",
+    "legal_name": "Reliable Freight LLC",
+    "safety_rating": "Satisfactory",
+    "out_of_service_pct": 12.5,
+    "crash_total": 2,
+    "driver_oos_pct": 5.3,
+    "insurance_on_file": true,
+    "authority_status": "Active",
+    "last_inspection_date": "2025-11-15",
+    "fleet_size": 45
+  },
+  {
+    "carrier_id": "MC-234567",
+    "dot_number": "2345678",
+    "legal_name": "Fast Lane Transport Inc",
+    "safety_rating": "Conditional",
+    "out_of_service_pct": 35.0,
+    "crash_total": 5,
+    "driver_oos_pct": 22.1,
+    "insurance_on_file": true,
+    "authority_status": "Active",
+    "last_inspection_date": "2025-09-30",
+    "fleet_size": 12
+  },
+  {
+    "carrier_id": "MC-345678",
+    "dot_number": "3456789",
+    "legal_name": "Sunset Haulers Co",
+    "safety_rating": "Unsatisfactory",
+    "out_of_service_pct": 78.3,
+    "crash_total": 9,
+    "driver_oos_pct": 61.0,
+    "insurance_on_file": false,
+    "authority_status": "Revoked",
+    "last_inspection_date": "2024-06-01",
+    "fleet_size": 3
+  },
+  {
+    "carrier_id": "MC-456789",
+    "dot_number": "4567890",
+    "legal_name": "Northern Star Logistics",
+    "safety_rating": "Satisfactory",
+    "out_of_service_pct": 4.2,
+    "crash_total": 0,
+    "driver_oos_pct": 1.1,
+    "insurance_on_file": true,
+    "authority_status": "Active",
+    "last_inspection_date": "2025-12-01",
+    "fleet_size": 100
+  },
+  {
+    "carrier_id": "MC-567890",
+    "dot_number": "5678901",
+    "legal_name": "Midway Express LLC",
+    "safety_rating": "Satisfactory",
+    "out_of_service_pct": 15.0,
+    "crash_total": 1,
+    "driver_oos_pct": 8.0,
+    "insurance_on_file": true,
+    "authority_status": "Active",
+    "last_inspection_date": "2025-07-20",
+    "fleet_size": 8
+  }
+]

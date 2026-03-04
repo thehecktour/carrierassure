@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from ..models.ccf import CCFUpload
 from ..serializers.ccf import CCFUploadSerializer
-from ..services.processing_result import CCFProcessingService
+from ..services.ccf_processing import CCFProcessingService
 
 logger = logging.getLogger(__name__)
 
